@@ -7,8 +7,6 @@ const router = Router();
 
 router.post("/sign-up", UsersControllers.signup);
 
-router.post("/login", (req, res) => {
-  res.json("Login Route");
-});
+router.post("/login", UsersControllers.login);
 
 module.exports = router;

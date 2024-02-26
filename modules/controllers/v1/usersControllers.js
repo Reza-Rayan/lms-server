@@ -1,6 +1,8 @@
 const User = require("../../models/user");
+const bcrypt = require("bcrypt");
 
 class UsersControllers {
+  // Signing up user Controller
   async signup(req, res) {
     try {
       const { username, email, password } = req.body;
@@ -26,6 +28,39 @@ class UsersControllers {
       return res
         .status(500)
         .json({ success: false, message: "There is an Error in Server" });
+    }
+  }
+
+  // Login User Controller
+  async login(req, res) {
+    try {
+      const { email, password } = req.body;
+      const user = await User.findOne({ email });
+      // Check email Exist
+      if (!user) {
+        return res.status(404).json({
+          success: false,
+          message: "ایمیل مورد نظر وجود ندارد",
+        });
+      }
+      const encryptedPassword = await bcrypt.compare(password, user.password);
+
+      // Check Password
+      if (!encryptedPassword) {
+        return res.status(403).json({
+          success: false,
+          message: "رمز عبور وارد شده صحیح نمی باشد",
+        });
+      }
+
+      return res
+        .status(200)
+        .json({ success: true, message: " ورود موفقیت آمیز بود", user });
+    } catch (error) {
+      console.log(error);
+      res
+        .status(500)
+        .json({ success: false, message: "Internal Error in Server" });
     }
   }
 }
