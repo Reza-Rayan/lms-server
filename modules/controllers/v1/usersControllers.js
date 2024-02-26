@@ -1,5 +1,6 @@
 const User = require("../../models/user");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 class UsersControllers {
   // Signing up user Controller
@@ -53,9 +54,13 @@ class UsersControllers {
         });
       }
 
+      // Create Token for Login
+      const token = jwt.sign({ email: user.email, userId: user._id },
+         config.secretKey, { expiresIn: 2*24*60 * 60 });
+
       return res
         .status(200)
-        .json({ success: true, message: " ورود موفقیت آمیز بود", user });
+        .json({ success: true, message: " ورود موفقیت آمیز بود", user,token });
     } catch (error) {
       console.log(error);
       res
