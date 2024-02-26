@@ -63,6 +63,32 @@ class UsersControllers {
         .json({ success: false, message: "Internal Error in Server" });
     }
   }
+
+  //  Get One User
+  async single(req, res) {
+    try {
+      const userId = req.params.id;
+      console.log(userId);
+      const user = await User.findOne({ userId });
+
+      if (!user) {
+        return res.status(404).json({
+          success: false,
+          message: "کاربر مورد نظر یافت نشد",
+        });
+      }
+      return res.status(200).json({
+        success: true,
+        user,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        success: false,
+        message: "Internal Error in Server",
+      });
+    }
+  }
 }
 
 module.exports = new UsersControllers();

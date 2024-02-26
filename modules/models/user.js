@@ -32,8 +32,6 @@ const userSchema = new Schema({
   },
   phone: {
     type: String,
-    length: 11,
-    required: true,
   },
   wallet: {
     type: Number,
