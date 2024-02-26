@@ -1,5 +1,6 @@
 const { Schema, model } = require("mongoose");
 const timeStamps = require("mongoose-timestamp");
+const bcrypt = require("bcrypt");
 
 const userSchema = new Schema({
   username: {
@@ -36,6 +37,14 @@ const userSchema = new Schema({
 });
 
 userSchema.plugin(timeStamps);
+
+// Hashing password middleware
+userSchema.pre("save", async function (next) {
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(this.password, salt);
+  this.password = hashedPassword;
+  next();
+});
 
 const User = model("User", userSchema);
 
