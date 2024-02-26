@@ -9,7 +9,7 @@ class ConnectDB {
     mongoose
       .connect(config.uri)
       .then(() => {
-        console.log(`Connected to database ${res}`);
+        console.log(`Connected to database`);
       })
       .catch((error) => {
         console.log("There is error in connection", error);

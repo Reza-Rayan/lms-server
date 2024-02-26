@@ -4,6 +4,9 @@ const cors = require("cors");
 const config = require("./modules/config");
 global.config = require("./modules/config");
 
+const apiRoutes = require("./modules/routes/api");
+const webRoutes = require("./modules/routes/web");
+
 const app = express();
 
 //Connect To Database
@@ -15,9 +18,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json({ type: "application/json" }));
 app.use(cors());
 
-app.get("/", (req, res) => {
-  res.json("Home Page API");
-});
+// Define Routes
+app.use("/api", apiRoutes);
+app.use("/", webRoutes);
 
 app.listen(config.port, () =>
   console.log(`Server is Running on port :${config.port}`)
