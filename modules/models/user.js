@@ -30,6 +30,11 @@ const userSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "Course",
   },
+  phone: {
+    type: String,
+    length: 11,
+    required: true,
+  },
   wallet: {
     type: Number,
     default: 0,
