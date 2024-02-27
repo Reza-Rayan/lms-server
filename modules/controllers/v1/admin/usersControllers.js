@@ -1,4 +1,5 @@
 const User = require("../../../models/user");
+const {validateUser} = require("../../../validations/userValidator")
 
 class UsersControllers {
   // Get All Users
@@ -25,9 +26,19 @@ class UsersControllers {
   // Create a User
   async create(req,res){
     try {
-      const { username, email, password,role ,wallet} = req.body;
+      const { username, email, password,role ,wallet,phone} = req.body;
 
-      const newUser = new User({ username, email, password,role,wallet });
+           // Validate user input
+           const validationCheck =
+           validateUser({ username, email, password,role ,wallet,phone});
+
+          if (validationCheck !== true) {
+            return res.status(400).json({
+              success: false,
+              message: validationCheck.map((error) => error.message).join(", "),
+            });
+          }
+      const newUser = new User({ username, email, password,role ,wallet,phone  });
 
       // Check User Exist
       const existingUser = await User.findOne({ email });
