@@ -1,14 +1,27 @@
 const User = require("../../../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const {validateUser} = require("../../../validations/userValidator")
 
 class UsersControllers {
   // Signing up user Controller
   async signup(req, res) {
     try {
-      const { username, email, password } = req.body;
+      const { username, email, password,phone ,role} = req.body;
 
-      const newUser = new User({ username, email, password });
+      // Validate user input
+      const validationCheck =
+       validateUser({ username, email, password,phone,role:"student"});
+
+      if (validationCheck !== true) {
+        return res.status(400).json({
+          success: false,
+          message: validationCheck.map((error) => error.message).join(", "),
+        });
+      }
+
+      const newUser = new User({ username, email, password,phone ,role});
+
 
       // Check User Exist
       const existingUser = await User.findOne({ email });
@@ -36,6 +49,7 @@ class UsersControllers {
   async login(req, res) {
     try {
       const { email, password } = req.body;
+
       const user = await User.findOne({ email });
       // Check email Exist
       if (!user) {
