@@ -7,5 +7,6 @@ const router = Router();
 
 router.get("/", usersControllers.index);
 router.delete("/remove/:id", usersControllers.destroy);
+router.put("/update-role/:id",usersControllers.changeRole)
 
 module.exports = router;
