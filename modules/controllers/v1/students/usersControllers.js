@@ -8,10 +8,16 @@ class UsersControllers {
   async signup(req, res) {
     try {
       const { username, email, password,phone ,role} = req.body;
+      let {avatar}= req.body;
 
+      if(!avatar){
+        avatar=""
+      }
+      const avatarURL = req.file.filename
+      console.log(avatarURL)
       // Validate user input
       const validationCheck =
-       validateUser({ username, email, password,phone,role:"student"});
+       validateUser({ username, email, password,phone,avatar,role:"student"});
 
       if (validationCheck !== true) {
         return res.status(400).json({
@@ -20,7 +26,9 @@ class UsersControllers {
         });
       }
 
-      const newUser = new User({ username, email, password,phone ,role});
+      const newUser = new User({ username, email, password,phone,role,
+      avatar: `http://localhost:5000/uploads/${avatarURL}`
+      });
 
 
       // Check User Exist
@@ -94,6 +102,7 @@ class UsersControllers {
         return res.status(404).json({
           success: false,
           message: "کاربر مورد نظر یافت نشد",
+          user
         });
       }
       return res.status(200).json({
@@ -121,7 +130,7 @@ class UsersControllers {
             message:"کاربر مورد نظر یافت نشد"
           })
         }
-
+          console.log(req.file)
         await User.findByIdAndUpdate(userId,{
           username,email,avatar,phone
         })

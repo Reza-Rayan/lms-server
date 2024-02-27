@@ -15,11 +15,10 @@ const userSchema = {
     enum: "نقش کاربر باید از بین 'student', 'teacher', 'admin' باشد",
   } },
   avatar: { type: "string", optional: true },
-  password: { type: "string", min: 4, max: 255, messages: {
+    password: { type: "string", min: 4, max: 255, messages: {
     stringMin: "رمز عبور باید حداقل 4 کاراکتر باشد",
     stringMax: "رمز عبور نمی تواند بیشتر از 255 کاراکتر باشد",
   } },
-  course: { type: "string", optional: true }, // Assuming course is a string ID
   phone: { type: "string", optional: true },
   wallet: { type: "number", min: 0, optional: true },
 };
