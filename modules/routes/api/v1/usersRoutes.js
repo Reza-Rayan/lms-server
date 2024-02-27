@@ -8,5 +8,6 @@ const router = Router();
 router.post("/sign-up", usersControllers.signup);
 router.post("/login", usersControllers.login);
 router.get("/:id", usersControllers.single);
+router.put("/:id", usersControllers.update)
 
 module.exports = router;

@@ -94,6 +94,32 @@ class UsersControllers {
       });
     }
   }
+    // Update User Details
+    async update(req,res){
+      try {
+        const {username,email,avatar,phone} = req.body;
+        const userId = req.params.id
+
+        const selectedUser = await User.findById(userId)
+        if(!selectedUser){
+          return res.status(404).json({
+            success: false,
+            message:"کاربر مورد نظر یافت نشد"
+          })
+        }
+
+        await User.findByIdAndUpdate(userId,{
+          username,email,avatar,phone
+        })
+        return res.status(200).json({
+          success: true,
+          message:"آپدیت مشخصات کاربر موفقیت آمیز بود"
+        })
+      } catch (error) {
+        console.log(error)
+        return res.status(500).json({success: false,message:"Internal Error in Server"})
+      }
+    }
 }
 
 module.exports = new UsersControllers();

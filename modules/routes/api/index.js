@@ -11,7 +11,7 @@ router.get("/", (req, res) => {
 });
 
 // user Routes
-router.use("/users", userRoutes);
+router.use("/student", userRoutes);
 router.use("/admin", adminRoutes);
 
 module.exports = router;
