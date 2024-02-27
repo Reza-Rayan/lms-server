@@ -13,8 +13,7 @@ class UsersControllers {
       if(!avatar){
         avatar=""
       }
-      const avatarURL = req.file.filename
-      console.log(avatarURL)
+      const avatarURL = req.file.path
       // Validate user input
       const validationCheck =
        validateUser({ username, email, password,phone,avatar,role:"student"});
@@ -27,7 +26,7 @@ class UsersControllers {
       }
 
       const newUser = new User({ username, email, password,phone,role,
-      avatar: `http://localhost:5000/uploads/${avatarURL}`
+      avatar: `http://localhost:5000/${avatarURL}`
       });
 
 

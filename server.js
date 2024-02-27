@@ -16,6 +16,8 @@ connectDB;
 // Platform Configurations
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json({ type: "application/json" }));
+app.use("/uploads", express.static("uploads"));
+
 app.use(cors());
 
 // Define Routes
