@@ -15,7 +15,6 @@ class CourseController {
       });
 
       const course = await newCourse.save();
-      console.log(course);
       return res.status(200).json({
         success: true,
         message: "دوره جدید ساخته شد",
