@@ -79,6 +79,25 @@ class CourseController {
       });
     }
   }
+
+  async destroy(req, res) {
+    try {
+      const courseId = req.params.id;
+      const course = await Course.findByIdAndDelete(courseId);
+
+      if (!course) {
+        return res.status(404).json({
+          success: false,
+          message: "دوره مورد نظر یافت نشد",
+        });
+      }
+
+      return res.status(200).json({
+        success: true,
+        message: "دوره مورد نظر حذف شد",
+      });
+    } catch (error) {}
+  }
 }
 
 module.exports = new CourseController();
