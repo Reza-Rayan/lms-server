@@ -3,20 +3,20 @@ const yup = require("yup");
 const courseSchema = yup.object().shape({
   title: yup
     .string()
-    .required("Title is required")
-    .min(2, "Title must be at least 2 characters")
-    .max(300, "Title cannot exceed 300 characters"),
+    .required("عنوان دوره اجباری می باشد")
+    .min(2, "عنوان دوره باید حداقل 2 کاراکتر داشته باشد")
+    .max(300, "عنوان دوره نباید بیشتر از 300 کاراکتر داشته باشد"),
   description: yup
     .string()
-    .required("Description is required")
-    .min(10, "Description must be at least 10 characters")
-    .max(600, "Description cannot exceed 600 characters"),
+    .required("توضیحات دوره اجباری می باشد")
+    .min(10, "توضیحات دوره باید حداقل 10 کاراکتر داشته باشد")
+    .max(600, "توضیحات دوره نمی تواند بیشتر از 600 کاراکتر داشته باشد"),
   imageBanner: yup.string().required("Image banner is required"),
   price: yup
     .number()
-    .required("Price is required")
-    .positive("Price must be a positive number"),
-  teacher: yup.string().required("Teacher is required"),
+    .required("قیمت دوره الزامی می باشد")
+    .positive("قیمت دوره باید عدد مثبت باشد"),
+  teacher: yup.string().required("استاد دوره الزامی می باشد"),
   students: yup.array().of(yup.string()),
   episodes: yup.array().of(yup.string()),
 });
