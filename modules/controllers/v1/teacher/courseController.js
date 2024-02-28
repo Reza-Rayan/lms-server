@@ -1,4 +1,5 @@
 const Course = require("../../../models/Course");
+const User = require("../../../models/User");
 
 class CourseController {
   async create(req, res) {
@@ -20,7 +21,13 @@ class CourseController {
         message: "دوره جدید ساخته شد",
         course,
       });
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        success: false,
+        message: "Internal Error in Server.",
+      });
+    }
   }
 }
 
