@@ -1,34 +1,13 @@
 const User = require("../../../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const {validateUser} = require("../../../validations/userValidator")
+const { validateUser } = require("../../../validations/userValidator");
 
 class UsersControllers {
   // Signing up user Controller
   async signup(req, res) {
     try {
-      const { username, email, password,phone ,role} = req.body;
-      let {avatar}= req.body;
-
-      if(!avatar){
-        avatar=""
-      }
-      const avatarURL = req.file.path
-      // Validate user input
-      const validationCheck =
-       validateUser({ username, email, password,phone,avatar,role:"student"});
-
-      if (validationCheck !== true) {
-        return res.status(400).json({
-          success: false,
-          message: validationCheck.map((error) => error.message).join(", "),
-        });
-      }
-
-      const newUser = new User({ username, email, password,phone,role,
-      avatar: `http://localhost:5000/${avatarURL}`
-      });
-
+      const { username, email, password, phone, role, avatar } = req.body;
 
       // Check User Exist
       const existingUser = await User.findOne({ email });
@@ -38,6 +17,32 @@ class UsersControllers {
           message: "این ایمیل حساب  دارد",
         });
       }
+
+      // Validate user input
+      const validationCheck = validateUser({
+        username,
+        email,
+        password,
+        phone,
+        avatar,
+        role: "student",
+      });
+
+      if (validationCheck !== true) {
+        return res.status(400).json({
+          success: false,
+          message: validationCheck.map((error) => error.message).join(", "),
+        });
+      }
+      const newUser = new User({
+        username,
+        email,
+        password,
+        phone,
+        role: "student",
+        avatar: "",
+      });
+
       const user = await newUser.save();
       return res.status(200).json({
         success: true,
@@ -76,12 +81,15 @@ class UsersControllers {
       }
 
       // Create Token for Login
-      const token = jwt.sign({ email: user.email, userId: user._id },
-         config.secretKey, { expiresIn: 2*24*60 * 60 });
+      const token = jwt.sign(
+        { email: user.email, userId: user._id },
+        config.secretKey,
+        { expiresIn: 2 * 24 * 60 * 60 }
+      );
 
       return res
         .status(200)
-        .json({ success: true, message: " ورود موفقیت آمیز بود", user,token });
+        .json({ success: true, message: " ورود موفقیت آمیز بود", user, token });
     } catch (error) {
       console.log(error);
       res
@@ -101,7 +109,7 @@ class UsersControllers {
         return res.status(404).json({
           success: false,
           message: "کاربر مورد نظر یافت نشد",
-          user
+          user,
         });
       }
       return res.status(200).json({
@@ -116,32 +124,78 @@ class UsersControllers {
       });
     }
   }
-    // Update User Details
-    async update(req,res){
-      try {
-        const {username,email,avatar,phone} = req.body;
-        const userId = req.params.id
+  // Update User Details
+  async update(req, res) {
+    try {
+      const { username, email, avatar, phone } = req.body;
+      const userId = req.params.id;
 
-        const selectedUser = await User.findById(userId)
-        if(!selectedUser){
-          return res.status(404).json({
-            success: false,
-            message:"کاربر مورد نظر یافت نشد"
-          })
-        }
-          console.log(req.file)
-        await User.findByIdAndUpdate(userId,{
-          username,email,avatar,phone
-        })
-        return res.status(200).json({
-          success: true,
-          message:"آپدیت مشخصات کاربر موفقیت آمیز بود"
-        })
-      } catch (error) {
-        console.log(error)
-        return res.status(500).json({success: false,message:"Internal Error in Server"})
+      const selectedUser = await User.findById(userId);
+      if (!selectedUser) {
+        return res.status(404).json({
+          success: false,
+          message: "کاربر مورد نظر یافت نشد",
+        });
       }
+      console.log(req.file);
+      await User.findByIdAndUpdate(userId, {
+        username,
+        email,
+        avatar,
+        phone,
+      });
+      return res.status(200).json({
+        success: true,
+        message: "آپدیت مشخصات کاربر موفقیت آمیز بود",
+      });
+    } catch (error) {
+      console.log(error);
+      return res
+        .status(500)
+        .json({ success: false, message: "Internal Error in Server" });
     }
+  }
+
+  async uploadAvatar(req, res) {
+    try {
+      const userId = req.params.id;
+      const user = await User.findById(userId);
+
+      // Check User Exist
+      if (!user) {
+        return res.status(404).json({
+          success: false,
+          message: "کاربر مورد نظر یافت نشد",
+        });
+      }
+
+      // Check Avatar Upload
+      if (!req.file) {
+        return res.status(404).json({
+          success: false,
+          message: "  آواتار آپلود نشده است",
+        });
+      }
+
+      // Upload File
+      const avatarURL = `http://localhost:5000/${req.file.path}`;
+      await User.findByIdAndUpdate(userId, {
+        avatar: avatarURL,
+      });
+
+      return res.status(200).json({
+        success: true,
+        message: "آواتار با موفقیت آپلود شد",
+        avatar: avatarURL,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        success: false,
+        message: "Internal Error in Server.",
+      });
+    }
+  }
 }
 
 module.exports = new UsersControllers();
