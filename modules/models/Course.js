@@ -26,10 +26,12 @@ const courseSchema = new Schema({
     type: String,
     required: true,
   },
-  students: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
-  },
+  students: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
 });
 
 courseSchema.plugin(timeStamps);
