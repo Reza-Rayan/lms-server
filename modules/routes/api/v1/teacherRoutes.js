@@ -7,6 +7,6 @@ const courseControllers = require("../../../controllers/v1/teacher/courseControl
 
 router.post("/", courseControllers.create);
 
-router.use("/courses/:userId", router);
+router.use("/courses/:id", router);
 
 module.exports = router;

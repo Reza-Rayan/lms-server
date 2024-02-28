@@ -6,6 +6,14 @@ class CourseController {
     try {
       const { title, description, imageBanner, price, teacher } = req.body;
 
+      const existCourse = await Course.findOne({ title });
+      if (existCourse) {
+        return res.status(400).json({
+          success: false,
+          message: "این دوره با این نام قبلا بارگذاری شده است",
+        });
+      }
+
       const newCourse = new Course({
         title,
         description,
