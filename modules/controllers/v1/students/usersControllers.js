@@ -1,4 +1,4 @@
-const User = require("../../../models/user");
+const User = require("../../../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { validateUser } = require("../../../validations/userValidator");
@@ -7,7 +7,8 @@ class UsersControllers {
   // Signing up user Controller
   async signup(req, res) {
     try {
-      const { username, email, password, phone, role, avatar } = req.body;
+      const { username, email, password, phone, avatar, courses, role } =
+        req.body;
 
       // Check User Exist
       const existingUser = await User.findOne({ email });
@@ -18,7 +19,6 @@ class UsersControllers {
         });
       }
 
-      // Validate user input
       const validationCheck = validateUser({
         username,
         email,
@@ -29,18 +29,21 @@ class UsersControllers {
       });
 
       if (validationCheck !== true) {
+        const validationErrors = validationCheck.map((error) => error.message);
         return res.status(400).json({
           success: false,
-          message: validationCheck.map((error) => error.message).join(", "),
+          message: validationErrors.join(", "),
         });
       }
+
       const newUser = new User({
         username,
         email,
         password,
         phone,
-        role: "student",
-        avatar: "",
+        courses,
+        role,
+        avatar,
       });
 
       const user = await newUser.save();
@@ -51,9 +54,10 @@ class UsersControllers {
       });
     } catch (error) {
       console.log(error);
-      return res
-        .status(500)
-        .json({ success: false, message: "There is an Error in Server" });
+      return res.status(500).json({
+        success: false,
+        message: "There is an Error in Server",
+      });
     }
   }
 

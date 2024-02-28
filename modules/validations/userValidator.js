@@ -37,6 +37,7 @@ const userSchema = {
       stringMax: "رمز عبور نمی تواند بیشتر از 255 کاراکتر باشد",
     },
   },
+  courses: { type: "array", optional: true },
   phone: { type: "string", optional: true },
   wallet: { type: "number", min: 0, optional: true },
 };
