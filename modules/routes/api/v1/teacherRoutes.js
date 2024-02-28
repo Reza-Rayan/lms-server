@@ -6,7 +6,8 @@ const router = Router();
 const courseControllers = require("../../../controllers/v1/teacher/courseController");
 
 router.post("/", courseControllers.create);
+router.get("/", courseControllers.index);
 
-router.use("/courses/:id", router);
+router.use("/courses/", router);
 
 module.exports = router;
