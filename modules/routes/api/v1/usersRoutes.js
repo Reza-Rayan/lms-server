@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const avatarUploader = require("../../../utils/AvatarUploader");
+const avatarUploader = require("../v1/middleware/AvatarUploader");
 
 // Controllers
 const usersControllers = require("../../../controllers/v1/students/usersControllers");
