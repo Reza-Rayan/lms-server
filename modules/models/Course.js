@@ -1,18 +1,28 @@
 const { Schema, model } = require("mongoose");
 const timeStamps = require("mongoose-timestamp");
+const { courseSchema } = require("../validations/courseValidation");
+const yup = require("yup");
 
-const courseSchema = new Schema({
+const courseValidation = async (course) => {
+  try {
+    await courseSchema.validate(course, { abortEarly: false });
+  } catch (error) {
+    throw new Error(`Validation Error: ${error.errors.join(", ")}`);
+  }
+};
+
+const courseSchemaMongoose = new Schema({
   title: {
     type: String,
     required: true,
-    min: 2,
-    length: 300,
+    minlength: 2,
+    maxlength: 300,
   },
   description: {
     type: String,
     required: true,
-    min: 10,
-    max: 600,
+    minlength: 10,
+    maxlength: 600,
   },
   imageBanner: {
     type: String,
@@ -40,8 +50,8 @@ const courseSchema = new Schema({
   ],
 });
 
-courseSchema.plugin(timeStamps);
+courseSchemaMongoose.plugin(timeStamps);
 
-const Course = model("Course", courseSchema);
+const Course = model("Course", courseSchemaMongoose);
 
 module.exports = Course;

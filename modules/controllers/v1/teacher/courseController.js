@@ -1,10 +1,30 @@
 const Course = require("../../../models/Course");
-const User = require("../../../models/User");
+const { courseSchema } = require("../../../validations/courseValidation");
 
 class CourseController {
   async create(req, res) {
     try {
       const { title, description, imageBanner, price, teacher } = req.body;
+
+      // Validate input using yup schema
+      try {
+        await courseSchema.validate(
+          {
+            title,
+            description,
+            imageBanner,
+            price,
+            teacher,
+          },
+          { abortEarly: false }
+        );
+      } catch (error) {
+        return res.status(400).json({
+          success: false,
+          message: "Validation Error",
+          errors: error.errors,
+        });
+      }
 
       const existCourse = await Course.findOne({ title });
       if (existCourse) {
