@@ -1,7 +1,7 @@
 const User = require("../../../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { validateUser } = require("../../../validations/userValidator");
+const { userSchema } = require("../../../validations/userValidator");
 
 class UsersControllers {
   // Signing up user Controller
@@ -19,20 +19,24 @@ class UsersControllers {
         });
       }
 
-      const validationCheck = validateUser({
-        username,
-        email,
-        password,
-        phone,
-        avatar,
-        role: "student",
-      });
-
-      if (validationCheck !== true) {
-        const validationErrors = validationCheck.map((error) => error.message);
+      try {
+        await userSchema.validate(
+          {
+            username,
+            email,
+            password,
+            phone,
+            avatar,
+            courses,
+            role,
+          },
+          { abortEarly: false }
+        );
+      } catch (error) {
         return res.status(400).json({
           success: false,
-          message: validationErrors.join(", "),
+          message: "Validation Error",
+          errors: error.errors,
         });
       }
 
@@ -53,10 +57,10 @@ class UsersControllers {
         user,
       });
     } catch (error) {
-      console.log(error);
       return res.status(500).json({
         success: false,
-        message: "There is an Error in Server",
+        message: "Internal Error in Server.",
+        errors: error.errors,
       });
     }
   }
