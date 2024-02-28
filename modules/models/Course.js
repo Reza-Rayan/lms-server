@@ -32,6 +32,12 @@ const courseSchema = new Schema({
       ref: "User",
     },
   ],
+  episodes: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Episode",
+    },
+  ],
 });
 
 courseSchema.plugin(timeStamps);
