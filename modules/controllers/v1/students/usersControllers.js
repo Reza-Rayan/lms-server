@@ -1,9 +1,10 @@
-const User = require("../../../models/User");
+const User = require(`${config.path.models}/User`);
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { userSchema } = require("../../../validations/userValidator");
 
 class UsersControllers {
+
   // Signing up user Controller
   async signup(req, res) {
     try {
@@ -109,6 +110,7 @@ class UsersControllers {
   //  Get One User
   async single(req, res) {
     try {
+
       const userId = req.params.id;
       console.log(userId);
       const user = await User.findOne({ userId });
