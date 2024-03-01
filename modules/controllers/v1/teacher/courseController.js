@@ -2,6 +2,7 @@ const Course = require("../../../models/Course");
 const { courseSchema } = require("../../../validations/courseValidation");
 
 class CourseController {
+  // @POST create course
   async create(req, res) {
     try {
       const { title, description, imageBanner, price, teacher } = req.body;
@@ -57,7 +58,7 @@ class CourseController {
     }
   }
 
-
+  // @DELETE remove course
   async destroy(req, res) {
     try {
       const courseId = req.params.id;
