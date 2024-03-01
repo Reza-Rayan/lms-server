@@ -2,8 +2,8 @@ const { Router } = require("express");
 const avatarUploader = require("../v1/middleware/AvatarUploader");
 
 // Controllers
-const usersControllers = require("../../../controllers/v1/students/usersControllers");
-const courseControllers = require("../../../controllers/v1/students/courseControllers")
+const usersControllers = require(`${config.path.controllers}/students/usersControllers`);
+const courseControllers = require(`${config.path.controllers}/students/courseControllers`)
 
 const router = Router();
 
