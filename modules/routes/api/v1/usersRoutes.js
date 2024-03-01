@@ -7,10 +7,15 @@ const courseControllers = require("../../../controllers/v1/students/courseContro
 
 const router = Router();
 
+// Courses Routes
+router.get("/courses", courseControllers.index)
+router.get("/courses/:id", courseControllers.signle)
+
+
 // User Management Routes
 router.post("/sign-up", usersControllers.signup);
 router.post("/login", usersControllers.login);
-router.get("/:idcourseControllers", usersControllers.single);
+router.get("/:id", usersControllers.single);
 router.put("/:id", usersControllers.update);
 router.post(
   "/upload-avatar/:id",
@@ -18,8 +23,6 @@ router.post(
   usersControllers.uploadAvatar
   );
 
-// Courses Routes
-router.get("/", courseControllers.index)
 
 
 module.exports = router;
