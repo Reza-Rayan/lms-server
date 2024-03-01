@@ -75,7 +75,40 @@ class CourseController {
         success: true,
         message: "دوره مورد نظر حذف شد",
       });
-    } catch (error) {}
+    } catch (error) {
+
+      return res.status(500).json({
+        success: false,
+        message:"Internal Error in Server"
+      })
+    }
+  }
+
+  async update(req,res){
+    try {
+      const {title,description,imageBanner,price}= req.body;
+      const courseId = req.params.id
+      await Course.findByIdAndUpdate(courseId,{title,description,imageBanner,price});
+
+      if(!courseId){
+        return res.status(404).json({
+          success: false,
+          message:"دوره مورد نظر یافت نشد"
+        })
+      }
+
+      return res.status(200).json({
+        success: true,
+        message:"دوره مورد نظر آپدیت شد",
+      })
+
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        success: false,
+        message:"Internal Error in Server."
+      })
+    }
   }
 }
 

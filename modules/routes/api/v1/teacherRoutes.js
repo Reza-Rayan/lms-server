@@ -7,6 +7,7 @@ const courseControllers = require("../../../controllers/v1/teacher/courseControl
 
 router.post("/", courseControllers.create);
 router.delete("/:id", courseControllers.destroy);
+router.put("/:id", courseControllers.update);
 
 router.use("/courses/", router);
 
