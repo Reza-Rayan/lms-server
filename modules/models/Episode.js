@@ -1,4 +1,5 @@
 const { Schema, model } = require("mongoose");
+const timeStamps = require("mongoose-timestamp");
 
 const episodeSchema = new Schema({
   title: {
@@ -10,7 +11,7 @@ const episodeSchema = new Schema({
     required: true,
   },
   number: {
-    type: number,
+    type: Number,
   },
   videlURL: {
     type: String,
@@ -22,7 +23,7 @@ const episodeSchema = new Schema({
   },
 });
 
-courseSchema.plugin(timeStamps);
+episodeSchema.plugin(timeStamps);
 
 const Episode = model("Episode", episodeSchema);
 
