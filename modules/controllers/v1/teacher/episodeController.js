@@ -50,7 +50,6 @@ class EpisodeController {
     try {
       const { title, description, number, videlURL } = req.body;
       const episodeId = req.params.episodeId;
-      console.log(episodeId);
       const episode = await Episode.findOneAndUpdate(episodeId, {
         title,
         description,

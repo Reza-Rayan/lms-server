@@ -5,7 +5,6 @@ class CourseControllers {
   async index(req, res) {
     try {
       const courses = await Course.find().populate("episodes");
-      console.log(courses);
       if (!courses) {
         return res.status(404).json({
           success: false,

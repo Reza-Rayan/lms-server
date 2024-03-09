@@ -4,7 +4,6 @@ const jwt = require("jsonwebtoken");
 const { userSchema } = require("../../../validations/userValidator");
 
 class UsersControllers {
-
   // Signing up user Controller
   async signup(req, res) {
     try {
@@ -110,7 +109,6 @@ class UsersControllers {
   //  Get One User
   async single(req, res) {
     try {
-
       const userId = req.params.id;
       console.log(userId);
       const user = await User.findOne({ userId });
@@ -147,7 +145,6 @@ class UsersControllers {
           message: "کاربر مورد نظر یافت نشد",
         });
       }
-      console.log(req.file);
       await User.findByIdAndUpdate(userId, {
         username,
         email,
