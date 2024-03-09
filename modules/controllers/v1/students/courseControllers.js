@@ -1,60 +1,55 @@
-const Course = require(`${config.path.models}/Course`)
+const Course = require(`${config.path.models}/Course`);
 
-
-class CourseControllers{
+class CourseControllers {
   // @GET all controllers
-    async index(req, res) {
-        try {
-          const courses = await Course.find();
-          console.log(courses);
-          if (!courses) {
-            return res.status(404).json({
-              success: false,
-              message: "هیچ دوره ای وجود ندارد",
-            });
-          }
-
-          res.status(200).json({
-            success: true,
-            courses,
-          });
-        } catch (error) {
-          console.log(error);
-          return res.status(500).json({
-            success: false,
-            message: "Internal Error in Server",
-          });
-        }
+  async index(req, res) {
+    try {
+      const courses = await Course.find().populate("episodes");
+      console.log(courses);
+      if (!courses) {
+        return res.status(404).json({
+          success: false,
+          message: "هیچ دوره ای وجود ندارد",
+        });
       }
 
-      async signle(req,res){
-        try {
-          const courseId = req.params.id
-          const course = await Course.findById(courseId)
+      res.status(200).json({
+        success: true,
+        courses,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        success: false,
+        message: "Internal Error in Server",
+      });
+    }
+  }
 
-          if(!course){
-            return res.status(404).json({
-              success: false,
-              message:"دوره مورد نظر یافت نشد"
-            })
-          }
+  async signle(req, res) {
+    try {
+      const courseId = req.params.id;
+      const course = await Course.findById(courseId);
 
-
-        return res.status(200).json({
-          success: true,
-          course
-        })
-
-        } catch (error) {
-            console.log(error);
-            return res.status(500).json({
-              success: false,
-              message:"Internal Error in Server"
-            })
-        }
+      if (!course) {
+        return res.status(404).json({
+          success: false,
+          message: "دوره مورد نظر یافت نشد",
+        });
       }
+
+      return res.status(200).json({
+        success: true,
+        course,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        success: false,
+        message: "Internal Error in Server",
+      });
+    }
+  }
 }
 
-
-
-module.exports = new CourseControllers()
+module.exports = new CourseControllers();
