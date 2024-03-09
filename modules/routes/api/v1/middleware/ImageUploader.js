@@ -8,7 +8,7 @@ const getUploadsPath = () => {
   const year = now.getFullYear();
   const month = String(now.getMonth() + 1).padStart(2, "0");
   const day = String(now.getDate()).padStart(2, "0");
-  return path.join("uploads", "avatars", year.toString(), month, day);
+  return path.join("uploads", "banners", year.toString(), month, day);
 };
 
 // Create Directories
@@ -40,12 +40,19 @@ const storage = multer.diskStorage({
 const fileFilter = function (req, file, cb) {
   // Accept images only
   if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
-    return cb(new Error("فقط می توانید عکس بارگذاری کنید"), false);
+    return cb(new Error("فقط می توانید عکس بارگذاری کنید"));
   }
   cb(null, true);
 };
 
 // Initialize Multer Upload
-const upload = multer({ storage: storage, fileFilter: fileFilter });
+const ImageUploader = () =>
+  multer({
+    storage: storage,
+    fileFilter: fileFilter,
+    limits: {
+      fileSize: 1024 * 1024 * 10,
+    },
+  });
 
-module.exports = upload;
+module.exports = ImageUploader;
