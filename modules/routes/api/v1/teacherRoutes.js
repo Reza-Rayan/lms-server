@@ -7,7 +7,8 @@ const courseControllers = require(`${config.path.controllers}/teacher/courseCont
 const episodeControllers = require(`${config.path.controllers}/teacher/episodeController`);
 
 // Episodes
-router.post("/:id/episode", episodeControllers.create);
+router.post("/:courseId/episode", episodeControllers.create);
+router.put("/episode/:episodeId", episodeControllers.update);
 
 // Courses
 router.post("/", courseControllers.create);
