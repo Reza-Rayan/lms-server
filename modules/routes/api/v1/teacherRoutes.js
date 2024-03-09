@@ -9,6 +9,7 @@ const episodeControllers = require(`${config.path.controllers}/teacher/episodeCo
 // Episodes
 router.post("/:courseId/episode", episodeControllers.create);
 router.put("/episode/:episodeId", episodeControllers.update);
+router.delete("/:courseId/episode/:episodeId", episodeControllers.delete);
 
 // Courses
 router.post("/", courseControllers.create);

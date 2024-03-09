@@ -69,6 +69,40 @@ class EpisodeController {
         .json({ success: false, message: "Internal Error in Server" });
     }
   }
-  async delete(req, res) {}
+  async delete(req, res) {
+    try {
+      const episodeId = req.params.episodeId;
+      const courseId = req.params.courseId;
+
+      const episode = await Episode.findById(episodeId);
+      const course = await Course.findById(courseId);
+
+      if (!episode) {
+        return res
+          .status(404)
+          .json({ success: false, message: "اپیزود مورد نظر یافت نشد" });
+      }
+
+      // Remove Episode ID from Course
+      const index = course.episodes.indexOf(episode._id);
+      if (index > -1) {
+        course.episodes.splice(index, 1);
+      }
+
+      await course.save();
+
+      // Delete the Episode
+      await Episode.findByIdAndDelete(episodeId);
+
+      return res
+        .status(200)
+        .json({ success: true, message: "اپیزود مورد نظر پاک شد" });
+    } catch (error) {
+      console.log(error);
+      return res
+        .status(500)
+        .json({ success: false, message: "Internal Error in Server" });
+    }
+  }
 }
 module.exports = new EpisodeController();
