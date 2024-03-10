@@ -7,16 +7,15 @@ class CourseController {
     try {
       const { title, description, price, teacher } = req.body;
 
+      const imageBanner = req.file ? req.file.path : null;
       // Check if file was uploaded
+      console.log("Image Banner", imageBanner);
       if (!req.file) {
         return res.status(404).json({
           success: false,
           message: "عکس دوره آپلود نشده است",
         });
       }
-
-      const imageBanner = req.file.path;
-      console.log("FILE UPLOAD", imageBanner);
 
       // Validate input using yup schema
       try {
@@ -45,14 +44,15 @@ class CourseController {
           message: "این دوره با این نام قبلا بارگذاری شده است",
         });
       }
+
       // Upload Banner
-      const imageBanerURL = `http://localhost:5000/uploads/${req.file.path}`;
+      const imageBannerURL = `http://localhost:5000/uploads/${imageBanner}`;
       const newCourse = new Course({
         title,
         description,
         price,
         teacher,
-        imageBanner: imageBanerURL,
+        imageBanner: imageBannerURL,
       });
 
       const course = await newCourse.save();

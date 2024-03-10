@@ -25,5 +25,5 @@ app.use("/api", apiRoutes);
 app.use("/", webRoutes);
 
 app.listen(config.port, () =>
-  console.log(`Server is Running on port :${config.port}`)
+  console.log(`Server is Running on port:${config.port}`)
 );
