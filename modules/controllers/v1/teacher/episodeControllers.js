@@ -1,11 +1,12 @@
 const Episode = require(`${config.path.models}/Episode`);
 const Course = require(`${config.path.models}/Course`);
+const { episodeSchema } = require("../../../validations/episodeValidation");
 
 class EpisodeController {
   //   Create New Episode
   async create(req, res) {
     try {
-      const { title, description, number, videoURL } = req.body;
+      const { title, description, number } = req.body;
 
       //   Find Course
       const courseId = req.params.courseId;
@@ -14,6 +15,24 @@ class EpisodeController {
         return res.status(403).json({
           success: false,
           message: "دوره مورد نظر یافت نشد",
+        });
+      }
+
+      // Validate input using yup schema
+      try {
+        await episodeSchema.validate(
+          {
+            title,
+            description,
+            number,
+          },
+          { abortEarly: false }
+        );
+      } catch (error) {
+        return res.status(400).json({
+          success: false,
+          message: "Validation Error",
+          errors: error.errors,
         });
       }
 
