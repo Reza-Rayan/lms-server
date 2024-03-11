@@ -1,5 +1,6 @@
 const { Router } = require("express");
 const imageUploader = require("../v1/middleware/ImageUploader");
+const videoUploader = require("./middleware/VideoUploader");
 
 const router = Router();
 
@@ -13,7 +14,11 @@ router.delete("/:id", courseControllers.destroy);
 router.put("/:id", courseControllers.update);
 
 // Episodes
-router.post("/:courseId/episode", episodeControllers.create);
+router.post(
+  "/:courseId/episode",
+  videoUploader.single("videoURL"),
+  episodeControllers.create
+);
 router.put("/episode/:episodeId", episodeControllers.update);
 router.delete("/:courseId/episode/:episodeId", episodeControllers.delete);
 

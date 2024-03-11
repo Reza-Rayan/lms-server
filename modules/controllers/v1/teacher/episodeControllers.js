@@ -5,17 +5,23 @@ class EpisodeController {
   //   Create New Episode
   async create(req, res) {
     try {
-      const { title, description, number, videlURL, course } = req.body;
+      const { title, description, number, videoURL } = req.body;
 
       //   Find Course
       const courseId = req.params.courseId;
       const RelatedCourse = await Course.findById(courseId);
+      if (!req.file.path) {
+        return res.status(403).json({
+          success: false,
+          message: "دوره مورد نظر یافت نشد",
+        });
+      }
 
       const newEpisode = new Episode({
         title,
         description,
         number,
-        videlURL,
+        videoURL: `http://localhost:5000/${req.file.path}`,
         course: RelatedCourse._id,
       });
 
@@ -48,13 +54,20 @@ class EpisodeController {
   // Update Episode
   async update(req, res) {
     try {
-      const { title, description, number, videlURL } = req.body;
+      const { title, description, number } = req.body;
+
+      if (!req.file.path) {
+        return res.status(403).json({
+          success: false,
+          message: " بارگذاری ویدئو الزامی است ",
+        });
+      }
       const episodeId = req.params.episodeId;
       const episode = await Episode.findOneAndUpdate(episodeId, {
         title,
         description,
         number,
-        videlURL,
+        videoURL: `http://localhost:5000/${req.file.path}`,
       });
       return res.status(200).json({
         success: true,
