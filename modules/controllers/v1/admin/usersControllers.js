@@ -1,5 +1,5 @@
 const User = require(`${config.path.models}/User`);
-const { validateUser } = require("../../../validations/userValidator");
+const { validateUser } = require(`${config.path.validation}/userValidator`);
 
 class UsersControllers {
   // Get All Users

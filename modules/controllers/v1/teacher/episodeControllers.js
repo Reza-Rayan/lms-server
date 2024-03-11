@@ -1,6 +1,8 @@
 const Episode = require(`${config.path.models}/Episode`);
 const Course = require(`${config.path.models}/Course`);
-const { episodeSchema } = require("../../../validations/episodeValidation");
+const {
+  episodeSchema,
+} = require(`${config.path.validation}/episodeValidation`);
 
 class EpisodeController {
   //   Create New Episode

@@ -1,5 +1,5 @@
 const Course = require(`${config.path.models}/Course`);
-const { courseSchema } = require("../../../validations/courseValidation");
+const { courseSchema } = require(`${config.path.validation}/courseValidation`);
 
 class CourseController {
   // @POST create course

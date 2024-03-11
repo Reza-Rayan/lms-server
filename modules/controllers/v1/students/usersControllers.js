@@ -1,7 +1,7 @@
 const User = require(`${config.path.models}/User`);
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { userSchema } = require("../../../validations/userValidator");
+const { userSchema } = require(`${config.path.validation}/userValidator`);
 
 class UsersControllers {
   // Signing up user Controller
