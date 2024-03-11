@@ -13,17 +13,20 @@ const episodeControllers = require(`${config.path.controllers}/teacher/episodeCo
 // Courses
 router.post(
   "/",
+  AuthMiddleware.verifyToken("admin"),
   AuthMiddleware.verifyToken("teacher"),
   imageUploader.single("banner"),
   courseControllers.create
 );
 router.delete(
   "/:id",
+  AuthMiddleware.verifyToken("admin"),
   AuthMiddleware.verifyToken("teacher"),
   courseControllers.destroy
 );
 router.put(
   "/:id",
+  AuthMiddleware.verifyToken("admin"),
   AuthMiddleware.verifyToken("teacher"),
   courseControllers.update
 );
