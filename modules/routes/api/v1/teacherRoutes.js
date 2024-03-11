@@ -19,7 +19,11 @@ router.post(
   videoUploader.single("videoURL"),
   episodeControllers.create
 );
-router.put("/episode/:episodeId", episodeControllers.update);
+router.put(
+  "/episode/:episodeId",
+  videoUploader.single("videoURL"),
+  episodeControllers.update
+);
 router.delete("/:courseId/episode/:episodeId", episodeControllers.delete);
 
 router.use("/courses", router);

@@ -55,7 +55,7 @@ class EpisodeController {
   async update(req, res) {
     try {
       const { title, description, number } = req.body;
-
+      console.log("VIDEO FILE", req.file.path);
       if (!req.file.path) {
         return res.status(403).json({
           success: false,
@@ -63,16 +63,23 @@ class EpisodeController {
         });
       }
       const episodeId = req.params.episodeId;
-      const episode = await Episode.findOneAndUpdate(episodeId, {
-        title,
-        description,
-        number,
-        videoURL: `http://localhost:5000/${req.file.path}`,
-      });
+      if (!episodeId) {
+        return res
+          .status(404)
+          .json({ success: false, message: "قسمت مورد نظر یافت نشد" });
+      }
+      await Episode.findOneAndUpdate(
+        { _id: episodeId },
+        {
+          title,
+          description,
+          number,
+          videoURL: `http://localhost:5000/${req.file.path}`,
+        }
+      );
       return res.status(200).json({
         success: true,
         message: "آپدیت قسمت انجام شد",
-        episode,
       });
     } catch (error) {
       console.log(error);
