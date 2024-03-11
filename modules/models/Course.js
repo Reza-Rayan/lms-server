@@ -14,7 +14,7 @@ const courseSchema = new Schema({
     minlength: 10,
     maxlength: 600,
   },
-  imageBanner: {
+  banner: {
     type: String,
   },
   price: {

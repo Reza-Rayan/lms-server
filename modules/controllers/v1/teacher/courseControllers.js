@@ -7,9 +7,7 @@ class CourseController {
     try {
       const { title, description, price, teacher } = req.body;
 
-      const imageBanner = req.file ? req.file.path : null;
       // Check if file was uploaded
-      console.log("Image Banner", imageBanner);
       if (!req.file) {
         return res.status(404).json({
           success: false,
@@ -23,7 +21,6 @@ class CourseController {
           {
             title,
             description,
-            imageBanner,
             price,
             teacher,
           },
@@ -46,13 +43,13 @@ class CourseController {
       }
 
       // Upload Banner
-      const imageBannerURL = `http://localhost:5000/uploads/${imageBanner}`;
+      const imageBannerURL = `http://localhost:5000/${req.file.path}`;
       const newCourse = new Course({
         title,
         description,
         price,
         teacher,
-        imageBanner: imageBannerURL,
+        banner: imageBannerURL,
       });
 
       const course = await newCourse.save();

@@ -4,14 +4,14 @@ const fs = require("fs");
 
 // Create Folders of Uploads Based on Date
 const getUploadsPath = () => {
-  let now = new Date();
-  let year = now.getFullYear();
-  let month = String(now.getMonth() + 1).padStart(2, "0");
-  let day = String(now.getDate()).padStart(2, "0");
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
   return path.join("uploads", "banners", year.toString(), month, day);
 };
 
-// Create Directory
+// Create Directories
 const createDirectories = (dirPath) => {
   dirPath.split(path.sep).reduce((currentPath, folder) => {
     currentPath += folder + path.sep;
@@ -46,11 +46,6 @@ const fileFilter = function (req, file, cb) {
 };
 
 // Initialize Multer Upload
-const upload = multer({
-  storage: storage,
-  fileFilter: fileFilter,
-  limits: {
-    fileSize: 10 * 1024 * 1024,
-  },
-});
+const upload = multer({ storage: storage, fileFilter: fileFilter });
+
 module.exports = upload;

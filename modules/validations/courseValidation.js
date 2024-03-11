@@ -11,7 +11,7 @@ const courseSchema = yup.object().shape({
     .required("توضیحات دوره اجباری می باشد")
     .min(10, "توضیحات دوره باید حداقل 10 کاراکتر داشته باشد")
     .max(600, "توضیحات دوره نمی تواند بیشتر از 600 کاراکتر داشته باشد"),
-  imageBanner: yup.string().required("بارگذاری بنر دوره الزامی است"),
+  banner: yup.string().optional(),
   price: yup
     .number()
     .required("قیمت دوره الزامی می باشد")

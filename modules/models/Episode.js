@@ -13,7 +13,7 @@ const episodeSchema = new Schema({
   number: {
     type: Number,
   },
-  videlURL: {
+  videoURL: {
     type: String,
     required: true,
   },

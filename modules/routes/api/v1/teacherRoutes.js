@@ -8,7 +8,7 @@ const courseControllers = require(`${config.path.controllers}/teacher/courseCont
 const episodeControllers = require(`${config.path.controllers}/teacher/episodeControllers`);
 
 // Courses
-router.post("/", imageUploader.single("imageBanner"), courseControllers.create);
+router.post("/", imageUploader.single("banner"), courseControllers.create);
 router.delete("/:id", courseControllers.destroy);
 router.put("/:id", courseControllers.update);
 
