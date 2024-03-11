@@ -1,17 +1,32 @@
 const { Router } = require("express");
-const imageUploader = require("../v1/middleware/ImageUploader");
+const imageUploader = require("../v1/middleware/imageUploader");
 const videoUploader = require("./middleware/VideoUploader");
 
 const router = Router();
 
+// Auth Middleware
+const AuthMiddleware = require("./middleware/verifyToken");
 // Controller
 const courseControllers = require(`${config.path.controllers}/teacher/courseControllers`);
 const episodeControllers = require(`${config.path.controllers}/teacher/episodeControllers`);
 
 // Courses
-router.post("/", imageUploader.single("banner"), courseControllers.create);
-router.delete("/:id", courseControllers.destroy);
-router.put("/:id", courseControllers.update);
+router.post(
+  "/",
+  AuthMiddleware.verifyToken("teacher"),
+  imageUploader.single("banner"),
+  courseControllers.create
+);
+router.delete(
+  "/:id",
+  AuthMiddleware.verifyToken("teacher"),
+  courseControllers.destroy
+);
+router.put(
+  "/:id",
+  AuthMiddleware.verifyToken("teacher"),
+  courseControllers.update
+);
 
 // Episodes
 router.post(

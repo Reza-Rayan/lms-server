@@ -90,7 +90,7 @@ class UsersControllers {
 
       // Create Token for Login
       const token = jwt.sign(
-        { email: user.email, userId: user._id },
+        { email: user.email, userId: user._id, role: user.role },
         config.secretKey,
         { expiresIn: 2 * 24 * 60 * 60 }
       );
