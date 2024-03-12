@@ -37,6 +37,12 @@ const courseSchema = new Schema({
       ref: "Episode",
     },
   ],
+  comments: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Comment",
+    },
+  ],
 });
 
 courseSchema.plugin(timeStamps);
