@@ -4,6 +4,7 @@ const avatarUploader = require("./middleware/avatarUploader");
 // Controllers
 const usersControllers = require(`${config.path.controllers}/students/usersControllers`);
 const courseControllers = require(`${config.path.controllers}/students/courseControllers`);
+const commentControllers = require(`${config.path.controllers}/students/commentControllers`);
 
 const router = Router();
 
@@ -21,5 +22,8 @@ router.post(
   avatarUploader.single("avatar"),
   usersControllers.uploadAvatar
 );
+
+// Comments Routes
+router.post("/:id/comments", commentControllers.create)
 
 module.exports = router;

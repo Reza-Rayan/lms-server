@@ -13,8 +13,8 @@ const episodeControllers = require(`${config.path.controllers}/teacher/episodeCo
 // Courses
 router.post(
   "/",
-  AuthMiddleware.verifyToken("admin"),
-  AuthMiddleware.verifyToken("teacher"),
+  // AuthMiddleware.verifyToken("admin"),
+  // AuthMiddleware.verifyToken("teacher"),
   imageUploader.single("banner"),
   courseControllers.create
 );
