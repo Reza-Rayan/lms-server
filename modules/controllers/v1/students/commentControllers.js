@@ -3,6 +3,7 @@ const Course = require(`${config.path.models}/Course`);
 const User = require(`${config.path.models}/User`);
 
 class  CommentControllers{
+    // Create Comment @POST
     async create(req,res){
         try {
             const {description}= req.body
@@ -35,6 +36,30 @@ class  CommentControllers{
 
         }catch (error){
             console.log(error)
+            return res.status(500).json({
+                success: false,
+                message:"Internal Error in Server"
+            })
+        }
+    }
+    // Delete Comment @DELETE
+    async destroy(req,res){
+        try {
+            const commentId = req.params.id;
+            //Check Comment Exists
+            if(!commentId){
+                return  res.status(404).json({
+                    success: false,
+                    message:"کامنت مورد نظر یافت نشد"
+                })
+            }
+            await  Comment.findByIdAndDelete(commentId);
+            return  res.status(200).json({
+                success: true,
+                message:"کامنت مورد نظر حذف شد"
+            })
+        }catch (error){
+            console.log(error);
             return res.status(500).json({
                 success: false,
                 message:"Internal Error in Server"

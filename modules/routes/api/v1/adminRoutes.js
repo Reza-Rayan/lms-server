@@ -2,6 +2,7 @@ const { Router } = require("express");
 
 // Controllers
 const usersControllers = require(`${config.path.controllers}/admin/usersControllers`);
+const commentsControllers = require(`${config.path.controllers}/students/commentControllers`);
 
 // Auth Middleware
 const AuthMiddleware = require("./middleware/verifyToken");
@@ -20,5 +21,8 @@ router.put(
   AuthMiddleware.verifyToken("admin"),
   usersControllers.changeRole
 );
+
+// Comments Routes
+router.delete("/comments/:id", commentsControllers.destroy)
 
 module.exports = router;
