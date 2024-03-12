@@ -4,7 +4,7 @@ class CourseControllers {
   // @GET all controllers
   async index(req, res) {
     try {
-      const courses = await Course.find().populate("episodes");
+      const courses = await Course.find().populate("episodes").populate("comments");
       if (!courses) {
         return res.status(404).json({
           success: false,
