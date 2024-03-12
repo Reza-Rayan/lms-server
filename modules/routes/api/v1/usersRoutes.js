@@ -24,6 +24,6 @@ router.post(
 );
 
 // Comments Routes
-router.post("/:id/comments", commentControllers.create)
+router.post("/:selectedCourseid/:selectedUserId/comments", commentControllers.create)
 
 module.exports = router;

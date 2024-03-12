@@ -1,12 +1,15 @@
 const Comment = require(`${config.path.models}/Comment`);
 const Course = require(`${config.path.models}/Course`);
+const User = require(`${config.path.models}/User`);
 
 class  CommentControllers{
     async create(req,res){
         try {
-            const {name,description}= req.body
-            const courseId = req.param.id;
+            const {description}= req.body
+            const courseId = req.param.selectedCourseid;
+            const userId = req.param.selectedUserId;
             const course = await  Course.findOne({courseId});
+            const user = await  User.findOne({userId});
             // Check course exists
             if(!course){
                 return  res.status(404).json({
@@ -15,7 +18,7 @@ class  CommentControllers{
                 })
             }
             // Save Comment
-            const comment  = new Comment({name,description});
+            const comment  = new Comment({description,user:user._id});
             await  comment.save();
             // push comment in Course
             await  Course.findOneAndUpdate(

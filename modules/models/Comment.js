@@ -2,20 +2,16 @@ const {Schema, model} = require("mongoose");
 const timestamps = require("mongoose-timestamp");
 
 const commentSchema = new Schema({
-    name: {
-        type: String,
-        required: true
-    },
+
     description: {
         type: String,
         required: true
     },
-    User: [
+    user:
         {
             type: Schema.Types.ObjectId,
             ref: "User"
         }
-    ]
 })
 
 
