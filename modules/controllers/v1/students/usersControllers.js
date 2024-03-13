@@ -7,7 +7,7 @@ class UsersControllers {
   // Signing up user Controller
   async signup(req, res) {
     try {
-      const { username, email, password, phone, avatar, courses, role } =
+      const { username, email, password, phone, avatar, courses, role,description } =
         req.body;
 
       // Check User Exist
@@ -29,6 +29,7 @@ class UsersControllers {
             avatar,
             courses,
             role,
+            description
           },
           { abortEarly: false }
         );
@@ -48,6 +49,7 @@ class UsersControllers {
         courses,
         role,
         avatar,
+        description
       });
 
       const user = await newUser.save();
@@ -135,7 +137,7 @@ class UsersControllers {
   // Update User Details
   async update(req, res) {
     try {
-      const { username, email, avatar, phone } = req.body;
+      const { username, email, avatar, phone,description } = req.body;
       const userId = req.params.id;
 
       const selectedUser = await User.findById(userId);
@@ -150,6 +152,7 @@ class UsersControllers {
         email,
         avatar,
         phone,
+        description
       });
       return res.status(200).json({
         success: true,

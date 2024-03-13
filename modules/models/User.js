@@ -35,6 +35,9 @@ const userSchema = new Schema({
     type: Number,
     default: 0,
   },
+  description:{
+    type: String,
+  }
 });
 
 userSchema.plugin(timeStamps);
