@@ -31,6 +31,10 @@ const courseSchema = new Schema({
       ref: "User",
     },
   ],
+  category:{
+    type: Schema.Types.String,
+    ref:"Category"
+  },
   episodes: [
     {
       type: Schema.Types.ObjectId,

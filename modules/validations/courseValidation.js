@@ -16,6 +16,7 @@ const courseSchema = yup.object().shape({
     .number()
     .required("قیمت دوره الزامی می باشد")
     .positive("قیمت دوره باید عدد مثبت باشد"),
+  category: yup.string().required("وارد کردن دسته بندی الزامی است"),
   teacher: yup.string().required("استاد دوره الزامی می باشد"),
   students: yup.array().of(yup.string()),
   episodes: yup.array().of(yup.string()),

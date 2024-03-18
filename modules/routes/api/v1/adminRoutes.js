@@ -3,6 +3,7 @@ const { Router } = require("express");
 // Controllers
 const usersControllers = require(`${config.path.controllers}/admin/usersControllers`);
 const commentsControllers = require(`${config.path.controllers}/students/commentControllers`);
+const categoryControllers = require(`${config.path.controllers}/teacher/categoryControllers`);
 
 // Auth Middleware
 const AuthMiddleware = require("./middleware/verifyToken");
@@ -23,6 +24,10 @@ router.put(
 );
 
 // Comments Routes
-router.delete("/comments/:id", commentsControllers.destroy)
+router.delete("/comments/:id", commentsControllers.destroy);
+
+// Category Routes
+router.post("/category", categoryControllers.create)
+
 
 module.exports = router;

@@ -12,7 +12,6 @@ const episodeControllers = require(`${config.path.controllers}/teacher/episodeCo
 const categoryControllers = require(`${config.path.controllers}/teacher/categoryControllers`);
 
 
-router.post("/category", categoryControllers.create)
 
 // Courses
 router.post(
