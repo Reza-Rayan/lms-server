@@ -9,6 +9,10 @@ const AuthMiddleware = require("./middleware/verifyToken");
 // Controller
 const courseControllers = require(`${config.path.controllers}/teacher/courseControllers`);
 const episodeControllers = require(`${config.path.controllers}/teacher/episodeControllers`);
+const categoryControllers = require(`${config.path.controllers}/teacher/categoryControllers`);
+
+
+router.post("/category", categoryControllers.create)
 
 // Courses
 router.post(
